@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / extension DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large binary files (imagens e vídeos de teste ficam localmente)
+imagens/
+videos/
+
+# Jupyter
+.ipynb_checkpoints/

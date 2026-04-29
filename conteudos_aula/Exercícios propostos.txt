@@ -1,0 +1,189 @@
+Exercícios propostos
+
+2. Atividades propostas:
+
+Carregue uma imagem clara e uma escura. Plote os histogramas de ambas e identifique em qual região do gráfico (esquerda ou direita) a concentração de pixels é maior.
+
+Aplique equalização em uma nos 3 canais de uma image colorida (BGR/RGB). Junte os canais e compare a imagem equalizada com a sem equalização. O que ocorreu?
+
+Converta uma imagem BGR/RGB para HSV, aplique a equalização de histograma apenas no canal V (Value) e retorne para BGR. Explique por que não devemos equalizar os canais R, G e B separadamente.
+
+Encontre uma imagem com iluminação mista (áreas muito claras e muito escuras). Aplique o CLAHE com diferentes valores de clipLimit (1.0, 2.0 e 5.0) e descreva o impacto visual no ruído da imagem.
+
+Crie um script que multiplique todos os pixels da imagem por um fator constante (ganho) e some um valor fixo (brilho). Compare o resultado visual com a equalização automática do OpenCV.
+
+Capture o vídeo paca.mp4 e aplique o realce CLAHE em tempo real. Meça se há uma queda perceptível no FPS ao adicionar esse processamento. Como resolver esse problema?
+
+3. Materiais de apoio:
+
+Para o material de apoio, estruturei a lista de comandos fundamentais dividida pelas bibliotecas utilizadas. Estes comandos permitem desde a extração de dados estatísticos brutos até o realce adaptativo de contraste em fluxos de vídeo.
+
+Comandos da Biblioteca OpenCV
+
+cv2.calcHist([img], [0], None, [256], [0, 256]): Calcula o histograma da imagem, contabilizando a frequência de cada um dos 256 níveis de cinza.
+
+cv2.convertScaleAbs(img, alpha, beta): Aplica uma transformação linear ponto a ponto ($f(x) = \alpha \cdot x + \beta$) para ajuste manual de contraste (alpha) e brilho (beta).
+
+cv2.equalizeHist(img): Executa a equalização global de histograma, esticando a distribuição de tons para ocupar toda a faixa dinâmica de 0 a 255.
+
+cv2.createCLAHE(clipLimit, tileGridSize): Cria o objeto para a equalização adaptativa (CLAHE), definindo o limite de corte de ruído e o tamanho das células de processamento local.
+
+clahe.apply(img): Aplica o filtro adaptativo CLAHE sobre a matriz de pixels.
+
+cv2.cvtColor(img, cv2.COLOR_BGR2GRAY): Converte a imagem colorida para tons de cinza, requisito para as funções de equalização de histograma.
+
+cap.get(cv2.CAP_PROP_FPS): Obtém a taxa de quadros por segundo (FPS) do arquivo de vídeo para sincronização do tempo de exibição.
+
+Comandos da Biblioteca Pyplot
+
+plt.plot(hist): Gera o gráfico de linha a partir dos dados numéricos do histograma calculados pelo OpenCV.
+
+plt.title("Texto"): Adiciona um título descritivo ao gráfico para facilitar o diagnóstico visual da imagem.
+
+plt.show(): Renderiza e abre a janela visual contendo os gráficos plotados durante o script.
+
+plt.figure(): Cria uma nova figura ou janela de plotagem, útil para comparar histogramas de diferentes imagens simultaneamente.
+
+
+
+
+
+
+2. Atividades propostas:
+
+Carregue a imagem sal_e_pimenta.png e aplique os filtros de Média e Gaussiano com o mesmo tamanho de kernel (ex: 7x7). Explique por que esses filtros lineares apenas "espalham" o ruído em vez de removê-lo completamente.
+Aplique o filtro de Mediana na imagem sal_e_pimenta.png. Aumente o tamanho do kernel gradualmente (3, 5, 9). O que acontece com os detalhes finos da imagem conforme o kernel cresce?
+Realize a binarização na imagen lena.png usando um valor fixo (127) e, em seguida, utilize o método de Otsu. Descreva em quais situações o cálculo automático de Otsu se mostra superior ao valor fixo.
+Utilize operações morofológicas para tratar a imagem engrenagem.png, removendo imperfeições causadas na binarização.
+3. Materiais de apoio:
+
+Para o material de apoio, estruturei a lista de comandos fundamentais dividida pelas bibliotecas utilizadas:
+
+cv2.blur(img, (k, k)): Filtro de média simples; suaviza a imagem calculando a média aritmética da vizinhança.
+
+cv2.GaussianBlur(img, (k, k), 0): Filtro Gaussiano; utiliza uma média ponderada para reduzir ruídos eletrônicos com menor perda de definição.
+
+cv2.medianBlur(img, k): Filtro de Mediana; excelente para remover ruído "sal e pimenta" preservando bordas.
+
+cv2.bilateralFilter(img, d, sColor, sSpace): Filtro avançado que suaviza o ruído enquanto mantém as bordas nítidas de forma superior aos outros métodos.
+
+cv2.threshold(img, lim, max, tipo): Converte uma imagem em tons de cinza para binária (preto e branco) com base em um valor de corte.
+
+cv2.getStructuringElement(formato, (k, k)): Cria a "sonda" geométrica (Elemento Estruturante) usada na morfologia.
+
+cv2.morphologyEx(img, operacao, kernel): Função versátil para executar Abertura (MORPH_OPEN) e Fechamento (MORPH_CLOSE).
+
+
+
+
+
+
+2. Atividades propostas:
+
+Aplique o operador de Sobel apenas no eixo X e depois apenas no eixo Y na imagem teclado.png. Descreva quais linhas do teclado (horizontais ou verticais) ficam mais evidentes em cada resultado.
+Compare visualmente o resultado do Sobel (magnitude combinada) com o algoritmo de Canny da imagem objetos.jpg. Qual deles produz bordas mais finas ("esqueletizadas") e prontas para contagem de objetos?
+Utilizando o detector de Canny, defina o limiar inferior e superior com valores muito próximos (ex: 100 e 110). Depois, afaste-os (ex: 50 e 200). Relate o que acontece com o ruído de fundo e com a continuidade das bordas principais na imagem lena.png.
+Aplique o filtro de Mediana ou Gaussiano antes de rodar o algoritmo de Canny. Prove através de capturas de tela como a remoção prévia de ruído altera a limpeza das bordas detectadas. Utilize as imagens monumento.png e Noise_SP.png.
+Crie um script que capture o vídeo da webcam e exiba o resultado de Canny. O desafio é usar a morfologia de Dilatação após o Canny para "engrossar", depois utilize o operador HULL para detectar objetos em frente a câmera. Se não tiver webcam utilize os videos paca.mp4 e leao.mp4.
+3. Materiais de apoio:
+
+Para o material de apoio, estruturei a lista de comandos fundamentais dividida pelas bibliotecas utilizadas:
+
+cv2.Sobel(imagem, cv2.CV_64F, dx, dy, ksize): Calcula a derivada da imagem para detectar variações de intensidade. Utilizamos dx=1 para bordas verticais e dy=1 para horizontais. O uso de cv2.CV_64F é essencial para capturar gradientes negativos que seriam perdidos em 8 bits.
+
+cv2.convertScaleAbs(matriz_64f): Calcula o valor absoluto dos pixels e converte a matriz de volta para 8 bits (uint8), permitindo a visualização correta das bordas detectadas pelo Sobel.
+
+cv2.addWeighted(img1, alpha, img2, beta, gamma): Realiza a fusão de duas imagens com pesos específicos. Utilizamos para combinar os gradientes horizontal e vertical ($G_x$ e $G_y$) em uma única imagem de contornos.
+
+cv2.Laplacian(imagem, cv2.CV_8U): Aplica a segunda derivada da imagem para detectar bordas em todas as direções simultaneamente; muito utilizado para operações de nitidez (sharpening).
+
+cv2.Canny(imagem, threshold1, threshold2): Implementa o algoritmo de Canny, o padrão-ouro para detecção de bordas. Utiliza dois limiares para filtrar bordas fracas e conectá-las às fortes, resultando em contornos finos e precisos.
+
+cv2.findContours(imagem, modo, metodo): Varre a imagem binária (gerada pelo Canny) para encontrar as coordenadas de todos os objetos isolados. Retorna uma lista de contornos e a hierarquia entre eles.
+
+cv2.drawContours(imagem, [contorno], -1, cor, espessura): Desenha os contornos encontrados sobre uma matriz, permitindo destacar objetos ou isolá-los em um fundo preto.
+
+cv2.contourArea(contorno): Calcula a área interna de um contorno em pixels; fundamental para filtrar ruídos ou selecionar objetos por tamanho.
+
+cv2.convexHull(contorno): Gera a envoltória convexa do objeto, criando um polígono simplificado que envolve todos os pontos do contorno original (efeito "elástico esticado").
+
+
+
+
+
+
+2. Atividades propostas:
+
+Remova a marca d'água da imagem assinatura.png utilizando segmentação de imagens.
+Utilize uma imagem sudoku.png. Aplique o a limiarização global e a limiarização adaptativa e compare qual método preservou melhor a legibilidade do texto. Por que isso ocorre?
+Utilize métodos de pré-processamento e segmentação de imagens para restaurar a imagem fingerprint.jpg.
+Utiliza a imagem cubo_magico.png para criar más caras bináris das cores vermelha, amarela e verde. Após a binarização, aplique técnicas de Morfologia para remover ruídos da máscara. Por fim junte as três imagens em uma. Exiba a imagem original e as quatro imagens binarizadas.
+Implemente um script que utilize o vídeo objetos-coloridos.mov para identificar apenas os objetos de cor azul.
+3. Materiais de apoio:
+
+Para o material de apoio, estruturei a lista de comandos fundamentais dividida pelas bibliotecas utilizadas:
+
+cv2.threshold(img, 128, 255, cv2.THRESH_BINARY): Realiza a binarização global simples. Se o valor do pixel for maior que o limiar (128), ele é definido como 255 (branco), caso contrário, torna-se 0 (preto).
+
+cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU): Aplica o Método de Otsu, que calcula automaticamente o limiar ideal com base no histograma da imagem, sendo ideal para imagens bimodalmente distribuídas.
+
+cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, ...): Executa a binarização adaptativa utilizando uma média ponderada gaussiana da vizinhança. É essencial para segmentar imagens com iluminação não uniforme.
+
+cv2.cvtColor(img, cv2.COLOR_BGR2HSV): Converte a imagem do espaço de cor BGR (padrão do OpenCV) para o HSV (Hue, Saturation, Value), permitindo a segmentação baseada na matiz da cor, independente da luminosidade.
+
+cv2.inRange(imgHSV, tomClaro, tomEscuro): Cria uma máscara binária onde apenas os pixels que estão dentro do intervalo definido pelos arrays tomClaro e tomEscuro tornam-se brancos (255).
+
+
+
+
+Os Pilares da Classificação
+Exploraremos as propriedades fundamentais divididas por sua natureza geométrica e estrutural:
+
+Características Dimensionais: Referem-se às medidas absolutas do objeto. Focamos no cálculo da Área (soma total de pixels) e do Perímetro (comprimento do contorno externo).
+
+Características de Aspecto: Analisamos a forma e proporção através de Bounding Boxes. Isso nos permite calcular a razão de aspecto (largura/altura), fundamental para identificar se um objeto é alongado ou arredondado.
+
+Características Inerciais: Baseiam-se na distribuição de massa do objeto. Aqui utilizamos os Momentos de Imagem para encontrar o Centroide (x,y)
+ e os eixos de rotação. Essas características são cruciais para que o sistema saiba onde "pegar" a peça (robótica) e como ela está orientada no espaço.
+
+Características Topológicas: Referem-se à estrutura e conectividade do objeto, independentemente de sua forma ou tamanho. Analisamos o número de componentes, a presença de "furos" (buracos internos) e a relação de vizinhança entre as partes do objeto.
+
+Estratégias de Foco (ROI, POI e SOI)
+Para otimizar o tempo de processamento, especialmente em sistemas de alta velocidade, aplicamos técnicas de afunilamento de interesse:
+
+ROI (Region of Interest): Recorte de uma submatriz para processar apenas uma área específica da tela.
+
+POI (Point of Interest): Monitoramento de coordenadas exatas (como o centroide) para realizar o Rastreamento (Tracking) sem analisar o objeto todo.
+
+SOI (Segment of Interest): Isolamento do objeto via máscara binária para aplicação de destaques visuais (overlays semitransparentes) com cv2.addWeighted.
+
+2. Atividades propostas:
+
+Desenvolva um algoritmo que processe o arquivo de vídeo objetos-coloridos.mov e realize o rastreamento em tempo real de cada objeto que cruza a tela. Imprima na imagem o centroide do objeto. Ajuste a velocidade do video para que possa ser lida as mensagens.
+Desenvolva um algoritmo, identifique o contorno de cada forma e exiba na tela o nome da figura geométrica detectada. Teste com as figuras quadrado.png, circulo.png e triangulo.png.
+Utilizando as imagens tampas1.png e tampas2.png, desenvolva um algoritmo em Python que realize a contagem seletiva de objetos. O sistema deve ser capaz de diferenciar e imprimir separadamente a quantidade de tampas verdes e tampas vermelhas presentes na cena.
+Crie um sistema de inspeção de peças. O algoritmo deve analisar as imagens parafusos1.png, parafusos2.png e parafusos3.png. O sistema deve desenhar um quadrado verde sobre as peças com apenas um furo com a escrita "OK" e um retangulo vermelho com a escrita "Defeito" sobra as peças sem furo ou com mais de um furo.
+Implemente um script para validar a semelhança geométrica entre os objetos contidos nos arquivos disco1.png, disco2.png. disco3.png, quadrado.png, circulo.png, triangulo.png e puzzle,png. A detecção de semelhança deve basear-se nos Momentos e Momentos de Hu, garantindo que o algoritmo reconheça os objetos como semelhantes mesmo que apresentem variações de rotação ou escala entre as capturas.
+3. Materiais de apoio:
+
+Para o material de apoio, estruturei a lista de comandos fundamentais dividida pelas bibliotecas utilizadas:
+
+cv2.HuMoments(momentos): Transforma os momentos centrais em sete momentos invariantes de Hu. Estes valores são fundamentais para o reconhecimento de formas, pois não mudam mesmo que o objeto sofra rotação, mudança de escala ou reflexão.
+
+math.atan2(y, x): Função matemática utilizada em conjunto com os momentos (mu11, mu20, mu02) para calcular o ângulo exato de orientação do objeto em radianos.
+
+cv2.RETR_CCOMP: Modo de recuperação de contornos que organiza a hierarquia em exatamente dois níveis: o contorno externo e o contorno dos furos internos. É a base para o cálculo do Número de Euler.
+
+cv2.approxPolyDP(contorno, epsilon, True): Algoritmo que reduz o número de pontos de um contorno, aproximando-o de uma forma geométrica simplificada (triângulo, quadrado, etc.) com base em uma tolerância de distância.
+
+cv2.connectedComponentsWithStats(binaria): Comando de alta performance que rotula todos os objetos da imagem e retorna uma matriz de estatísticas (stats) contendo área, largura, altura e as coordenadas do Centroide de cada item.
+
+cv2.applyColorMap(labels, cv2.COLORMAP_JET): Aplica um mapa de cores falso sobre uma imagem de rótulos. Transforma IDs numéricos em cores distintas (arco-íris), facilitando a visualização humana de objetos separados pelo computador.
+
+cv2.boundingRect(contorno): Calcula o menor retângulo vertical que envolve o objeto, retornando as coordenadas (x,y)
+ e as dimensões (w,h)
+ para a definição de uma ROI.
+
+Slicing de Matriz (img[y:y+h, x:x+w]): Técnica nativa do NumPy para realizar o recorte (crop) de uma área específica da imagem, criando uma Região de Interesse (ROI) isolada para processamento focado.
+
+cv2.copyTo(origem, mascara, destino): Realiza a cópia cirúrgica de pixels de uma imagem para outra, mas apenas nas regiões onde a máscara é branca (255). É a técnica padrão para destacar uma SOI (Segment of Interest).
